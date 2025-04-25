@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>My Profile</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">First Name</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Last Name</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone</label>
+                            {{ form.phone }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Account Information</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Role:</strong> {{ user.role.name }}</p>
+                    <p><strong>Last Login:</strong> {{ user.last_login|date:"F j, Y H:i" }}</p>
+                    <p><strong>date Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

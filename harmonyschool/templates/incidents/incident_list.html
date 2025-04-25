@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between mb-4">
+        <h2>Incidents</h2>
+        <a href="{% url 'incident_create' %}" class="btn btn-success">+ New Incident</a>
+    </div>
+
+    <!-- Filter Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get">
+                <div class="row g-3">
+                    {% for field in filter.form %}
+                    <div class="col-md-3">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <div class="col-md-3 align-self-end">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <a href="{% url 'incident_list' %}" class="btn btn-secondary">Reset</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Incident Table -->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for incident in filter.qs %}
+                <tr>
+                    <td>{{ incident.title }}</td>
+                    <td><span class="badge bg-{{ incident.status_color }}">{{ incident.get_status_display }}</span></td>
+                    <td>{{ incident.get_priority_display }}</td>
+                    <td>{{ incident.created_at|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        <a href="{% url 'incident_detail' incident.id %}" class="btn btn-sm btn-info">View</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No incidents found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
